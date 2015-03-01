@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 var hash = require('../util/hash');
 
-
 UserSchema = mongoose.Schema({
 	firstName:  String,
 	lastName:   String,
@@ -20,21 +19,35 @@ UserSchema = mongoose.Schema({
 	}
 });
 
-
-UserSchema.statics.signup = function(email, password, done){
+UserSchema.statics.signup = function(email, password, user, done){
 	var User = this;
 	hash(password, function(err, salt, hash){
 		if(err) throw err;
 		// if (err) return done(err);
-		User.create({
-			email : email,
-			salt : salt,
-			hash : hash
-		}, function(err, user){
-			if(err) throw err;
-			// if (err) return done(err);
-			done(null, user);
-		});
+		if(!user){
+			User.create({
+				email: email,
+				salt: salt,
+				hash: hash
+			}, function(err, user){
+				if(err) throw err;
+				// if (err) return done(err);
+			});
+		}
+		else{
+			user.salt = salt;
+			user.hash = hash;
+			user.save(function(err){
+				if(err){
+					console.log(err);
+					throw err;
+				}
+				else{
+					console.log("saving user ...");
+					done(null, user);
+				};
+			});
+		}
 	});
 }
 
@@ -87,7 +100,7 @@ UserSchema.statics.findOrCreateOAuthUser = function(profile, done){
 					});
 				} else {
 					// New e-mail, create
-					
+
 					// Fixed fields
 					user = {
 						email : profile.emails[0].value,

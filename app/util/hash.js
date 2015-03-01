@@ -31,7 +31,11 @@ var iterations = 12000;
 
 module.exports = function (pwd, salt, fn) {
   if (3 == arguments.length) {
-    crypto.pbkdf2(pwd, salt, iterations, len, fn);
+	  try{
+		  crypto.pbkdf2(pwd, salt, iterations, len, fn);
+	  }catch(err){
+		  fn(err)
+	  }
   } else {
     fn = salt;
     crypto.randomBytes(len, function(err, salt){

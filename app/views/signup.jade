@@ -1,6 +1,21 @@
-form(id="signup", method="POST", action="/signup")
-    lable(for='email') Email
-    input#email(type='text', name='email')
-    lable(for='password') Password
-    input#password(type='password', name='password')
-    input(type="submit", value="SignUp")
+extends layout
+
+block content
+	form(id="signup", method="POST", action="/signup")
+		label(for='email') Email
+		input#email(type='text', name='email')
+		br
+		label(for='password') Password
+		input#password(type='password', name='password')
+		br
+		input(type="submit", value="SignUp")
+
+	a(href="/auth/facebook") Log In With Facebook
+	br
+	a(href="/auth/google") Log In With Google
+	br
+	a(href="/signup") Signup
+	br
+	a(href="/login") Login
+	br
+	a(href="/") Home

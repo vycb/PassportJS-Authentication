@@ -1,13 +1,20 @@
-form(action='/login', method='post')
-    div
-        label Email:
-        input(type='text', name='email')
-      div
-        label Password:
-        input(type='password', name='password')
-      div
-        input(type='submit', value='Log In')
+extends layout
 
-a(href="/auth/facebook") Log In With Facebook
-br
-a(href="/auth/google") Log In With Google
+block content
+	form(action='/login', method='post')
+		div
+			label Email:
+			input(type='text', name='email')
+		div
+			label Password:
+			input(type='password', name='password')
+		div
+			input(type='submit', value='Log In')
+
+		a(href="/auth/facebook") Log In With Facebook
+		br
+		a(href="/auth/google") Log In With Google
+		br
+		a(href="/signup") Signup
+		br
+		a(href="/") Home
